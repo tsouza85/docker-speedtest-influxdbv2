@@ -5,7 +5,7 @@ RUN pacman -Syu --needed --noconfirm && \
   useradd --system --no-create-home speedtest && \
   mkdir /usr/src/app && \
   chown speedtest /usr/src/app && \
-  pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' --noconfirm && \
+  pacman -U https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst --noconfirm && \
   pacman -Sy --needed --noconfirm && \
   pacman -S paru && \
   paru -Syu ookla-speedtest-bin && \
