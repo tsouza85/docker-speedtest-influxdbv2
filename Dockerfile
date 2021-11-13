@@ -2,7 +2,7 @@ FROM archlinux:base-devel
 
 RUN pacman -Syu --needed --noconfirm && \
   pacman -S git python-pip --needed --noconfirm && \
-  adduser --system speedtest
+  useradd --system --no-create-home speedtest
 
 USER speedtest
 
