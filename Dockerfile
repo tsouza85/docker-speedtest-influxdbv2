@@ -9,7 +9,7 @@ RUN pacman -Syu --needed --noconfirm && \
   pacman -Sy --needed --noconfirm && \
   pacman -S paru && \
   paru -Syu ookla-speedtest-bin && \
-  paru -Sc --noconfirm &&
+  paru -Sc --noconfirm
 
 #USER speedtest
 
