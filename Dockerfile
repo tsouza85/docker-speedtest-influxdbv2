@@ -8,7 +8,7 @@ USER speedtest
 
 RUN git clone https://aur.archlinux.org/paru.git && \
   cd paru && \
-  makepkg -si --needed --noconfirm &&
+  makepkg -si --needed --noconfirm
 
 USER root
 
