@@ -2,10 +2,11 @@ FROM archlinux:latest
 
 RUN pacman -Syu --noconfirm && \
   pacman --needed --noconfirm -S base base-devel && \
-  pacman -S git curl paru python-pip --noconfirm && \
+  pacman -S pikaur git python-pip --noconfirm && \
   adduser --system speedtest
 
-RUN paru -Sc --noconfirm
+RUN pikaur -S ookla-speedtest-bin && \
+  pikaur -Sc --noconfirm
 
 USER speedtest
 
