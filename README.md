@@ -2,7 +2,7 @@
 
 This container is only compatible with InfluxDB v1.8 and v2. If you want to use InfluxDB v1.7 or lower, use the v1 container (link below).
 
-https://hub.docker.com/r/loganmarchione/docker-speedtest-influxdb
+https://hub.docker.com/r/tsouza85/speedtest-influxdbv2
 
 Telegraf now has an official Internet Speed Monitor plugin. It doesn't record as much data as this container, but it is officially supported, if that matters to you.
 
@@ -10,14 +10,10 @@ https://github.com/influxdata/telegraf/tree/master/plugins/inputs/internet_speed
 
 # docker-speedtest-influxdbv2
 
-[![CI/CD](https://github.com/loganmarchione/docker-speedtest-influxdbv2/actions/workflows/main.yml/badge.svg)](https://github.com/loganmarchione/docker-speedtest-influxdbv2/actions/workflows/main.yml)
-[![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/loganmarchione/docker-speedtest-influxdbv2)](https://hub.docker.com/r/loganmarchione/docker-speedtest-influxdbv2)
-
 Runs Ookla's [Speedtest CLI](https://www.speedtest.net/apps/cli) program in Docker, sends the results to InfluxDB
-  - Source code: [GitHub](https://github.com/loganmarchione/docker-speedtest-influxdbv2)
-  - Docker container: [Docker Hub](https://hub.docker.com/r/loganmarchione/docker-speedtest-influxdbv2)
-  - Image base: [Python (slim Buster)](https://hub.docker.com/_/python)
-  - Init system: N/A
+  - Source code: [GitHub](https://github.com/tsouza85/docker-speedtest-influxdbv2)
+  - Docker container: [Docker Hub](https://hub.docker.com/r/tsouza85/speedtest-influxdbv2)
+  - Image base: [Python (slim Buster)](https://hub.docker.com/_/archlinux)
   - Application: [Speedtest CLI](https://www.speedtest.net/apps/cli)
 
 ## Explanation
@@ -73,7 +69,7 @@ Below is an example docker-compose.yml file for connecting to InfluxDB v1.8.
 version: '3'
 services:
   speedtest:
-    container_name: tig_speedtest
+    container_name: speedtest
     restart: unless-stopped
     environment:
       - INFLUXDB_SCHEME=http
@@ -87,7 +83,7 @@ services:
       - SPEEDTEST_SERVER=41817
     networks:
       - influx
-    image: loganmarchione/docker-speedtest-influxdbv2:latest
+    image: tsouza85/speedtest-influxdbv2:latest
 
 networks:
   influx:
@@ -98,7 +94,7 @@ Below is an example docker-compose.yml file for connecting to InfluxDB v2.
 version: '3'
 services:
   speedtest:
-    container_name: tig_speedtest
+    container_name: speedtest
     restart: unless-stopped
     environment:
       - INFLUXDB_SCHEME=http
@@ -112,18 +108,11 @@ services:
       - SPEEDTEST_SERVER=41817
     networks:
       - influx
-    image: loganmarchione/docker-speedtest-influxdbv2:latest
+    image: tsouza85/speedtest-influxdbv2:latest
 
 networks:
   influx:
 ```
 
 ## TODO
-- [ ] Learn Python
-- [x] ~~Run the processes inside the container as a non-root user~~
 - [ ] Add a [healthcheck](https://docs.docker.com/engine/reference/builder/#healthcheck)
-- [x] ~~Move the database connection check to a function~~
-- [x] ~~Add logic to check if variables are set~~
-- [x] ~~Add defaults for HOST and PORT~~
-- [ ] Update CI/CD with tests
-- [x] ~~Add warning about bandwidth~~
