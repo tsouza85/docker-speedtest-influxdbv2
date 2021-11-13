@@ -12,8 +12,6 @@ RUN pacman -Syu git python-pip --needed --noconfirm && \
   pacman -Syu paru --needed --noconfirm && \
   useradd -m ${user} && \
   echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/${user}
-#mkdir /usr/src/app && \
-#chown speedtest /usr/src/app
 
 USER ${user}
 
