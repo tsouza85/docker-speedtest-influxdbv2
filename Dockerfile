@@ -2,9 +2,13 @@ FROM archlinux:base-devel
 
 RUN pacman -Syu --needed --noconfirm && \
   pacman -S git python-pip --needed --noconfirm && \
-  useradd --system --no-create-home speedtest
+  useradd --system --no-create-home speedtest && \
+  mkdir /usr/src/app && \
+  chown speedtest /usr/src/app
 
 USER speedtest
+
+WORKDIR /usr/scr/app
 
 RUN git clone https://aur.archlinux.org/paru.git && \
   cd paru && \
