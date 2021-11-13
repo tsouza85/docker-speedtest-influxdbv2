@@ -1,12 +1,13 @@
-FROM archlinux:latest
+FROM archlinux:base-devel
 
-RUN pacman -Syu --noconfirm && \
-  pacman --needed --noconfirm -S base base-devel && \
-  pacman -S pikaur git python-pip --noconfirm && \
+RUN pacman -Syu --needed --noconfirm && \
+  pacman -S git python-pip --needed --noconfirm && \
+  git clone https://aur.archlinux.org/paru.git && \
+  cd paru && \
+  makepkg -si --needed --noconfirm && \
+  paru -S ookla-speedtest-bin && \
+  paru -Sc --noconfirm && \
   adduser --system speedtest
-
-RUN pikaur -S ookla-speedtest-bin && \
-  pikaur -Sc --noconfirm
 
 USER speedtest
 
