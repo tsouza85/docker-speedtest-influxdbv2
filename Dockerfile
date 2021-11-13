@@ -1,5 +1,7 @@
 FROM archlinux:base-devel
 
+ARG user=speedtest
+
 RUN pacman -Syu git python-pip --needed --noconfirm && \
   pacman-key --init && \
   pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com && \
@@ -8,11 +10,12 @@ RUN pacman -Syu git python-pip --needed --noconfirm && \
   echo '[chaotic-aur]' >> /etc/pacman.conf && \
   echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf && \
   pacman -Syu paru --needed --noconfirm && \
-  useradd -m speedtest
+  useradd -m ${user} && \
+  echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/${user}
 #mkdir /usr/src/app && \
 #chown speedtest /usr/src/app
 
-USER speedtest
+USER ${user}
 
 RUN paru -Syu ookla-speedtest-bin && \
   paru -Sc --noconfirm
