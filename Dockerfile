@@ -7,8 +7,9 @@ RUN pacman -Syu --needed --noconfirm && \
   chown speedtest /usr/src/app && \
   pacman -U https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst --noconfirm && \
   pacman -Sy --needed --noconfirm && \
-  pacman -S paru && \
-  paru -Syu ookla-speedtest-bin && \
+  pacman -S paru
+
+RUN paru -Syu ookla-speedtest-bin && \
   paru -Sc --noconfirm
 
 #USER speedtest
