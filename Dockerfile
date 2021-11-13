@@ -3,8 +3,9 @@ FROM archlinux:latest
 RUN pacman -Syu --noconfirm && \
   pacman --needed --noconfirm -S base base-devel && \
   pacman -S git curl paru python-pip --noconfirm && \
-  paru -Sc --noconfirm && \
   adduser --system speedtest
+
+RUN paru -Sc --noconfirm
 
 USER speedtest
 
