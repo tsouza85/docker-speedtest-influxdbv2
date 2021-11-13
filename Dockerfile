@@ -2,12 +2,18 @@ FROM archlinux:base-devel
 
 RUN pacman -Syu --needed --noconfirm && \
   pacman -S git python-pip --needed --noconfirm && \
-  git clone https://aur.archlinux.org/paru.git && \
-  cd paru && \
-  makepkg -si --needed --noconfirm && \
-  paru -S ookla-speedtest-bin && \
-  paru -Sc --noconfirm && \
   adduser --system speedtest
+
+USER speedtest
+
+RUN git clone https://aur.archlinux.org/paru.git && \
+  cd paru && \
+  makepkg -si --needed --noconfirm &&
+
+USER root
+
+RUN paru -S ookla-speedtest-bin && \
+  paru -Sc --noconfirm &&
 
 USER speedtest
 
