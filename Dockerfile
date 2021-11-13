@@ -8,13 +8,14 @@ RUN pacman -Syu git python-pip --needed --noconfirm && \
   echo '[chaotic-aur]' >> /etc/pacman.conf && \
   echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf && \
   pacman -Syu paru --needed --noconfirm && \
-  paru -Syu ookla-speedtest-bin && \
-  paru -Sc --noconfirm && \
   useradd -m speedtest
-  #mkdir /usr/src/app && \
-  #chown speedtest /usr/src/app
+#mkdir /usr/src/app && \
+#chown speedtest /usr/src/app
 
 USER speedtest
+
+RUN paru -Syu ookla-speedtest-bin && \
+  paru -Sc --noconfirm
 
 WORKDIR /usr/scr/app
 
