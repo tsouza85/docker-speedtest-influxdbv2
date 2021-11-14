@@ -26,4 +26,6 @@ RUN pip install -r requirements.txt
 
 COPY speedtest.py .
 
-CMD ["python", "-u", "./speedtest.py"]
+COPY run.sh .
+
+CMD ["sh", "run.sh"]

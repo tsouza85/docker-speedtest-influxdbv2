@@ -18,12 +18,10 @@ influxdb_pass = os.getenv("INFLUXDB_PASS")
 influxdb_token = os.getenv("INFLUXDB_TOKEN")
 influxdb_org = os.getenv("INFLUXDB_ORG", "-")
 influxdb_db = os.getenv("INFLUXDB_DB")
-sleepy_time = int(os.getenv("SLEEPY_TIME", 3600))
-start_time = datetime.datetime.utcnow().isoformat()
+start_time = datetime.datetime.now().replace(microsecond=0).isoformat()
 default_hostname = socket.gethostname()
 hostname = os.getenv("SPEEDTEST_HOST", default_hostname)
 speedtest_server = os.getenv("SPEEDTEST_SERVER")
-
 
 def db_check():
     print("STATE: Running database check")
@@ -42,7 +40,7 @@ def db_check():
 def speedtest():
     db_check()
 
-    current_time = datetime.datetime.utcnow().isoformat()
+    current_time = datetime.datetime.now().replace(microsecond=0).isoformat()
     print("STATE: Loop running at", current_time)
 
     # Run Speedtest
@@ -51,11 +49,11 @@ def speedtest():
         print("STATE: User specified speedtest server:", speedtest_server)
         speedtest_server_arg = "--server-id="+speedtest_server
         print("STATE: Speedtest running")
-        my_speed = subprocess.run(['/usr/bin/speedtest', '--accept-license', '--accept-gdpr', '--format=json', speedtest_server_arg], stdout=subprocess.PIPE, text=True, check=True)
+        my_speed = subprocess.run(['/usr/bin/speedtest', '--accept-license', '--accept-gdpr', '--format=json', speedtest_server_arg], stdout=subprocess.PIPE, text=True, check=True, timeout=120)
     else:
         print("STATE: User did not specify speedtest server, using a random server")
         print("STATE: Speedtest running")
-        my_speed = subprocess.run(['/usr/bin/speedtest', '--accept-license', '--accept-gdpr', '--format=json'], stdout=subprocess.PIPE, text=True, check=True)
+        my_speed = subprocess.run(['/usr/bin/speedtest', '--accept-license', '--accept-gdpr', '--format=json'], stdout=subprocess.PIPE, text=True, check=True, timeout=120)
 
     # Convert the string into JSON, only getting the stdout and stripping the first/last characters
     my_json = json.loads(my_speed.stdout.strip())
@@ -96,14 +94,9 @@ def speedtest():
         print("ERROR: Error writing to database")
         print(err)
 
-    print("STATE: Sleeping for", sleepy_time, "seconds")
-    time.sleep(sleepy_time)
-
-
 # Some logging
 print("#####\nScript starting!\n#####")
 print("STATE: Starting at", start_time)
-print("STATE: Sleep time between runs set to", sleepy_time, "seconds")
 
 # Check if variables are set
 print("STATE: Checking environment variables...")
@@ -151,5 +144,9 @@ print("STATE: Database URL is... " + connection_string)
 print("STATE: Connecting to InfluxDB...")
 client = InfluxDBClient(url=connection_string, token=influxdb_token, org=influxdb_org)
 
-while True:
+try:
     speedtest()
+except subprocess.CalledProcessError as e:
+    print("command '{}' return with error (code {}): {}".format(
+        e.cmd, e.returncode, e.output))
+pass
